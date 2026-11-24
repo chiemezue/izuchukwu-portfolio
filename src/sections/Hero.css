@@ -1,0 +1,166 @@
+@reference "../index.css";
+
+.hero {
+  @apply relative overflow-hidden pt-10 md:pt-20;
+}
+
+/* Aurora: three soft, blurred color fields drifting slowly */
+.hero__aurora {
+  @apply pointer-events-none absolute inset-0;
+  opacity: 0.5;
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+.hero__blob {
+  @apply absolute rounded-full;
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+.hero__blob--lime {
+  width: 46rem; height: 46rem; top: -22rem; right: -12rem;
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-lime) 55%, transparent), transparent 65%);
+}
+.hero__blob--sky {
+  width: 38rem; height: 38rem; top: 12%; left: -20rem;
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-sky) 45%, transparent), transparent 65%);
+  animation-delay: -6s;
+}
+.hero__blob--coral {
+  width: 32rem; height: 32rem; bottom: -14rem; right: 22%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-coral) 40%, transparent), transparent 65%);
+  animation-delay: -12s;
+}
+@keyframes aurora-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(3rem, 2rem, 0) scale(1.1); }
+}
+
+/* Fine grid, faded at the edges */
+.hero__grid {
+  @apply pointer-events-none absolute inset-0;
+  background:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, #000 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, #000 25%, transparent 80%);
+}
+
+.hero__inner {
+  @apply relative grid items-center gap-16 pb-16 lg:grid-cols-[1.2fr_1fr] lg:gap-10 md:pb-24;
+}
+
+.hero__content { @apply flex flex-col items-start; }
+
+.hero__title { @apply mt-8 flex flex-col; }
+.hero__hello {
+  @apply mb-3 flex items-center gap-4 font-serif text-2xl font-normal text-muted italic md:text-3xl;
+  letter-spacing: 0;
+}
+
+/* Round portrait with a brand-gradient ring and availability dot */
+.hero__avatar {
+  @apply relative inline-flex size-16 shrink-0 rounded-full p-[3px] not-italic md:size-[76px];
+  background: conic-gradient(from 200deg, var(--color-lime), var(--color-sky), var(--color-coral), var(--color-amber), var(--color-lime));
+  box-shadow: 0 10px 40px -10px color-mix(in oklab, var(--color-lime) 55%, transparent);
+}
+.hero__avatar-img,
+.hero__avatar-initial {
+  @apply size-full rounded-full border-[3px] border-bg object-cover;
+}
+.hero__avatar-initial {
+  @apply inline-flex items-center justify-center bg-surface-2 font-display text-2xl font-bold text-fg md:text-3xl;
+}
+.hero__avatar-status {
+  @apply absolute right-0.5 bottom-0.5 size-4 rounded-full border-[3px] border-bg bg-lime md:size-[18px];
+}
+.hero__name {
+  @apply block text-[3.5rem] sm:text-[5.5rem] lg:text-[6.5rem];
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 96;
+}
+.hero__letters {
+  @apply inline-flex overflow-hidden;
+  /* extra top room so letters lifting on hover aren't clipped */
+  padding: 0.18em 0.04em 0.1em;
+  margin: -0.18em -0.04em -0.1em;
+}
+/* Each letter drops in from below, then reacts to the pointer */
+.hero__char {
+  display: inline-block;
+  animation: char-in 900ms var(--ease-out-soft) both;
+  animation-delay: calc(var(--intro) + 260ms + var(--c) * 55ms);
+  transition:
+    translate 450ms var(--ease-spring),
+    color 300ms ease;
+}
+.hero__char:hover {
+  translate: 0 -0.12em;
+}
+.hero__char:nth-child(4n + 1):hover { color: var(--color-lime); }
+.hero__char:nth-child(4n + 2):hover { color: var(--color-sky); }
+.hero__char:nth-child(4n + 3):hover { color: var(--color-amber); }
+.hero__char:nth-child(4n + 4):hover { color: var(--color-coral); }
+.hero__dot {
+  @apply text-lime;
+  animation-name: dot-in;
+  animation-timing-function: var(--ease-spring);
+}
+@keyframes char-in {
+  from { transform: translateY(105%) rotate(10deg); }
+  to { transform: none; }
+}
+@keyframes dot-in {
+  0% { transform: translateY(-160%) scale(0.4); opacity: 0; }
+  60% { transform: translateY(8%) scale(1.15); opacity: 1; }
+  100% { transform: none; }
+}
+
+/* Avatar spins in with its ring */
+.hero__hello .hero__avatar {
+  animation: avatar-in 1000ms var(--ease-spring) both;
+  animation-delay: calc(var(--intro) + 120ms);
+}
+@keyframes avatar-in {
+  from { transform: scale(0.3) rotate(-160deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.hero__role {
+  @apply mt-6 font-display text-2xl font-semibold sm:text-3xl;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.hero__role-web { @apply text-sky; }
+.hero__role-and { @apply font-serif font-normal text-muted italic; }
+.hero__role-ai {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__pitch { @apply mt-6 flex max-w-xl flex-col gap-3 text-lg text-muted; }
+
+.hero__actions { @apply mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row; }
+
+/* Hero card follows the mouse a little (pointer.js sets --px/--py) */
+.hero__visual {
+  @apply w-full;
+  translate: calc(var(--px, 0) * -14px) calc(var(--py, 0) * -10px);
+  transition: translate 700ms var(--ease-out-soft);
+}
+.hero__aurora {
+  translate: calc(var(--px, 0) * 22px) calc(var(--py, 0) * 16px);
+  transition: translate 1200ms var(--ease-out-soft);
+}
+
+/* Entrance: staggered fade-up on first paint */
+.hero__enter {
+  animation: hero-enter 850ms var(--ease-out-soft) both;
+  animation-delay: calc(var(--intro) + var(--i, 0) * 90ms + 80ms);
+}
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}

@@ -1,0 +1,17 @@
+@reference "../index.css";
+
+.availability {
+  @apply inline-flex items-center gap-2.5 rounded-full border border-line bg-surface py-1.5 pr-4 pl-3 text-sm text-muted;
+}
+.availability__dot {
+  @apply relative inline-block size-2 rounded-full bg-accent;
+}
+.availability__dot::after {
+  content: "";
+  @apply absolute inset-0 rounded-full bg-accent;
+  animation: availability-ping 2.4s var(--ease-out-soft) infinite;
+}
+@keyframes availability-ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  70%, 100% { transform: scale(2.8); opacity: 0; }
+}

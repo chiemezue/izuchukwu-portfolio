@@ -1,0 +1,71 @@
+@reference "../index.css";
+
+.btn {
+  @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full font-semibold whitespace-nowrap select-none;
+  min-height: 48px;
+  isolation: isolate;
+  transition:
+    background-color var(--dur) ease,
+    border-color var(--dur) ease,
+    color var(--dur) ease,
+    box-shadow var(--dur) ease,
+    transform var(--dur-fast) ease;
+}
+.btn:active { transform: scale(0.97); }
+
+/* Magnetic: pointer.js sets `translate`; ease back smoothly on leave */
+.btn--magnetic { transition-property: background-color, border-color, color, box-shadow, transform, translate; }
+.btn--magnetic { transition-duration: var(--dur), var(--dur), var(--dur), var(--dur), var(--dur-fast), 450ms; }
+.btn--magnetic { transition-timing-function: ease, ease, ease, ease, ease, var(--ease-spring); }
+.btn:disabled { @apply opacity-60; cursor: not-allowed; }
+
+.btn--md { @apply px-6 text-[0.95rem]; }
+.btn--sm { @apply px-4 text-sm; min-height: 40px; }
+
+/* Primary: lime with a light sheen that sweeps across on hover */
+.btn--primary {
+  @apply bg-lime text-on-bright;
+  box-shadow: 0 8px 30px -10px color-mix(in oklab, var(--color-lime) 60%, transparent);
+}
+.btn--primary::before {
+  content: "";
+  @apply absolute inset-y-0 -left-1/2 w-1/2;
+  z-index: -1;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+}
+.btn--primary:hover {
+  @apply bg-accent-strong;
+  box-shadow: 0 10px 40px -8px color-mix(in oklab, var(--color-lime) 75%, transparent);
+}
+.btn--primary:hover::before {
+  transform: translateX(420%) skewX(-20deg);
+  transition: transform 800ms var(--ease-out-soft);
+}
+
+/* Ghost: hairline border that turns into the brand gradient on hover */
+.btn--ghost {
+  @apply bg-surface/60 text-fg;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(var(--color-line-strong), var(--color-line-strong)) border-box;
+}
+.btn--ghost:hover {
+  background:
+    linear-gradient(var(--color-surface-2), var(--color-surface-2)) padding-box,
+    var(--gradient-brand) border-box;
+}
+
+.btn--text {
+  @apply px-0 text-lime rounded-md;
+  min-height: 44px;
+}
+.btn--text:hover { @apply text-accent-strong; }
+
+.btn__icon { transition: transform var(--dur) var(--ease-out-soft); }
+.btn:hover .btn__icon--end { transform: translateX(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn--primary::before { display: none; }
+}

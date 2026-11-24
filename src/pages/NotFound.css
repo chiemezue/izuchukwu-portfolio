@@ -1,0 +1,14 @@
+@reference "../index.css";
+
+.not-found {
+  @apply flex flex-col items-start py-24 md:py-36;
+  min-height: 70dvh;
+}
+.not-found__code {
+  @apply font-display text-[7rem] leading-none font-bold text-transparent md:text-[11rem];
+  -webkit-text-stroke: 1px var(--color-line-strong);
+  letter-spacing: -0.05em;
+}
+.not-found__title { @apply mt-6 text-3xl font-semibold md:text-5xl; }
+.not-found__text { @apply mt-4 text-lg text-muted; }
+.not-found__actions { @apply mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row; }

@@ -1,0 +1,16 @@
+@reference "../index.css";
+
+.chip {
+  @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[0.8rem] leading-5 font-medium whitespace-nowrap;
+}
+.chip--default { @apply border-line bg-surface-2 text-muted; }
+.chip--toned {
+  color: var(--tone);
+  border-color: color-mix(in oklab, var(--tone) 35%, transparent);
+  background: color-mix(in oklab, var(--tone) 10%, transparent);
+}
+.chip__dot {
+  @apply size-1.5 rounded-full;
+  background: var(--tone, var(--color-lime));
+  box-shadow: 0 0 10px var(--tone, var(--color-lime));
+}

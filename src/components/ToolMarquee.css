@@ -1,0 +1,33 @@
+@reference "../index.css";
+
+.tool-marquee {
+  @apply relative overflow-hidden border-y border-line bg-surface/50 py-5;
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+.tool-marquee__track {
+  @apply flex w-max;
+  animation: marquee 45s linear infinite;
+}
+.tool-marquee:hover .tool-marquee__track { animation-play-state: paused; }
+
+.tool-marquee__row { @apply flex shrink-0 items-center gap-10 pr-10; }
+.tool-marquee__item {
+  @apply inline-flex items-center gap-2.5 font-display text-lg font-semibold whitespace-nowrap text-fg/85;
+  letter-spacing: -0.02em;
+}
+.tool-marquee__dot {
+  @apply size-2 rounded-full;
+  background: var(--tone);
+  box-shadow: 0 0 12px var(--tone);
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-marquee__track { animation: none; flex-wrap: wrap; width: auto; }
+  .tool-marquee__row[aria-hidden] { display: none; }
+  .tool-marquee__row { flex-wrap: wrap; gap: 1rem 2rem; padding-inline: var(--gutter); }
+}

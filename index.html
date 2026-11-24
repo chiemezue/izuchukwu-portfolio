@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Izuchukwu | Web developer and AI automation builder</title>
+    <meta
+      name="description"
+      content="I'm Izuchukwu, a web developer and AI automation builder in Nigeria. I build fast websites, web apps, n8n workflows, WhatsApp and voice bots that businesses actually use."
+    />
+    <meta name="theme-color" content="#07070a" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Izuchukwu | Web developer and AI automation builder" />
+    <meta
+      property="og:description"
+      content="Websites and AI automation that businesses actually use. Based in Nigeria, working with clients remotely."
+    />
+    <!-- TODO: set og:url to your live domain and add a 1200x630 PNG at /public/images/og.png -->
+    <meta property="og:url" content="https://example.com/" />
+    <!-- <meta property="og:image" content="https://your-domain.com/images/og.png" /> -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fonts: Bricolage Grotesque (display), Instrument Serif (italic accents), Onest (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Serif:ital@0;1&family=Onest:wght@400..600&display=swap"
+    />
+
+    <!-- Intro: plays once per visit (not with reduced motion). Pure CSS, removed by main.jsx. -->
+    <script>
+      try {
+        var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (!calm && !sessionStorage.getItem('intro-seen')) {
+          document.documentElement.classList.add('has-intro')
+          sessionStorage.setItem('intro-seen', '1')
+        }
+      } catch (e) {}
+    </script>
+    <style>
+      #intro { display: none; }
+      html.has-intro #intro {
+        position: fixed; inset: 0; z-index: 200;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+        background: #07070a; color: #f5f5f2;
+        animation: intro-lift 900ms cubic-bezier(0.76, 0, 0.24, 1) 1150ms forwards;
+      }
+      html.has-intro { overflow: hidden; }
+      html.has-intro.intro-done { overflow: auto; }
+      .intro__name {
+        display: flex; overflow: hidden; padding: 0.1em 0.05em;
+        font: 800 clamp(2.6rem, 9vw, 5.5rem)/1 "Bricolage Grotesque", system-ui, sans-serif;
+        letter-spacing: -0.045em;
+      }
+      .intro__name span {
+        display: inline-block; transform: translateY(110%);
+        animation: intro-char 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: calc(var(--c) * 45ms + 80ms);
+      }
+      .intro__name .intro__dot { color: #c6f432; }
+      .intro__bar { width: min(220px, 50vw); height: 2px; background: #23232d; border-radius: 2px; overflow: hidden; }
+      .intro__bar span {
+        display: block; height: 100%; transform-origin: 0 50%; transform: scaleX(0);
+        background: linear-gradient(90deg, #c6f432, #ffc24b 50%, #ff7a59);
+        animation: intro-bar 900ms cubic-bezier(0.65, 0, 0.35, 1) 200ms forwards;
+      }
+      @keyframes intro-char { to { transform: none; } }
+      @keyframes intro-bar { to { transform: scaleX(1); } }
+      @keyframes intro-lift {
+        from { clip-path: inset(0 0 0 0); }
+        to { clip-path: inset(0 0 100% 0); visibility: hidden; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="intro" aria-hidden="true">
+      <div class="intro__name">
+        <span style="--c: 0">I</span><span style="--c: 1">z</span><span style="--c: 2">u</span><span style="--c: 3">c</span><span style="--c: 4">h</span><span style="--c: 5">u</span><span style="--c: 6">k</span><span style="--c: 7">w</span><span style="--c: 8">u</span><span class="intro__dot" style="--c: 9">.</span>
+      </div>
+      <div class="intro__bar"><span></span></div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

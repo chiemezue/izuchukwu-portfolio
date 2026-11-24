@@ -1,0 +1,75 @@
+@reference "../index.css";
+
+.project-card {
+  @apply flex flex-col gap-6 border border-line bg-surface/60 p-3 pb-7;
+  border-radius: calc(var(--radius) + 6px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform 600ms var(--ease-out-soft),
+    border-color var(--dur) ease,
+    background-color var(--dur) ease;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklab, var(--tone) 45%, var(--color-line));
+  @apply bg-surface;
+}
+
+/* Featured card: image and text side by side on large screens */
+@media (min-width: 1024px) {
+  .project-card--featured {
+    @apply grid grid-cols-[1.35fr_1fr] items-center gap-10 p-4 pr-10;
+  }
+  .project-card--featured .project-card__title { @apply text-4xl; }
+  .project-card--featured .project-card__summary { @apply text-lg; }
+}
+
+/* Image reveal: a soft wipe-up as the card enters the viewport */
+.project-card__media {
+  clip-path: inset(14% 0 0 0 round var(--radius));
+  transition: clip-path 1000ms var(--ease-out-soft);
+}
+.project-card.is-visible .project-card__media {
+  clip-path: inset(0 0 0 0 round var(--radius));
+}
+.project-card:hover .project-image__art { transform: scale(1.05); }
+
+.project-card__body { @apply flex flex-1 flex-col px-3; }
+
+.project-card__meta { @apply mb-4 flex items-center justify-between; }
+.project-card__num {
+  @apply font-display text-sm font-bold;
+  color: var(--tone);
+}
+
+.project-card__title { @apply text-2xl md:text-[1.75rem]; }
+.project-card__link { @apply outline-none; }
+/* Stretched link: the whole card is clickable, but only one tab stop */
+.project-card__link::after {
+  content: "";
+  @apply absolute inset-0;
+  border-radius: inherit;
+}
+.project-card__link:focus-visible::after {
+  outline: 2px solid var(--tone);
+  outline-offset: 3px;
+}
+
+.project-card__summary { @apply mt-3 text-muted; }
+
+.project-card__stack { @apply mt-5 flex flex-wrap gap-2; }
+
+.project-card__cta {
+  @apply mt-6 inline-flex items-center gap-2 text-sm font-semibold text-fg;
+}
+.project-card__cta-icon {
+  @apply inline-flex size-8 items-center justify-center rounded-full;
+  background: var(--tone);
+  color: var(--color-on-bright);
+  transition: transform var(--dur) var(--ease-out-soft);
+}
+.project-card:hover .project-card__cta-icon { transform: rotate(45deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__media { clip-path: none; }
+}

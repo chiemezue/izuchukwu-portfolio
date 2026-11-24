@@ -1,0 +1,6 @@
+@reference "../index.css";
+
+.projects__grid {
+  @apply grid gap-5 md:grid-cols-2 md:gap-6;
+}
+.projects__grid > .project-card--featured { @apply md:col-span-2; }

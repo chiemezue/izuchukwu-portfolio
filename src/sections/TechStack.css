@@ -1,0 +1,29 @@
+@reference "../index.css";
+
+.tech__grid { @apply grid gap-5 sm:grid-cols-2; }
+
+.tech__group {
+  @apply rounded-[var(--radius)] border border-line bg-surface/60 p-6 sm:p-7;
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform var(--dur-slow) var(--ease-out-soft),
+    border-color var(--dur) ease;
+}
+.tech__group:hover { border-color: color-mix(in oklab, var(--tone) 45%, var(--color-line)); }
+
+.tech__title { @apply mb-5 flex items-center gap-3 text-xl; }
+.tech__dot {
+  @apply size-2.5 rounded-full;
+  background: var(--tone);
+  box-shadow: 0 0 14px var(--tone);
+}
+
+.tech__chips { @apply flex flex-wrap gap-2; }
+.tech__chip {
+  @apply rounded-full border border-line bg-bg px-3.5 py-1.5 text-sm font-medium text-fg;
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.tech__chip:hover {
+  color: var(--tone);
+  border-color: color-mix(in oklab, var(--tone) 50%, transparent);
+}

@@ -1,0 +1,44 @@
+@reference "../index.css";
+
+.services__grid { @apply grid gap-5 md:grid-cols-2; }
+
+/* Card with a tone-colored gradient border and a corner glow */
+.services__card {
+  @apply overflow-hidden p-7 sm:p-9;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in oklab, var(--tone) 12%, transparent), transparent 55%) padding-box,
+    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(160deg, color-mix(in oklab, var(--tone) 55%, transparent), var(--color-line) 40%, var(--color-line)) border-box;
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform 600ms var(--ease-out-soft);
+}
+.services__card:hover { transform: translateY(-4px); }
+
+.services__top { @apply flex items-start justify-between; }
+.services__icon {
+  @apply inline-flex size-14 items-center justify-center rounded-2xl;
+  color: var(--color-on-bright);
+  background: var(--tone);
+  box-shadow: 0 10px 30px -8px color-mix(in oklab, var(--tone) 70%, transparent);
+}
+.services__num {
+  @apply font-display text-6xl font-extrabold;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--tone) 45%, transparent);
+}
+
+.services__title { @apply mt-8 text-3xl sm:text-4xl; }
+.services__intro { @apply mt-3 text-muted; }
+
+.services__list { @apply mt-7 flex flex-col; }
+.services__item {
+  @apply flex items-start gap-3 border-t border-line py-3.5 text-fg;
+}
+.services__check {
+  @apply mt-1 shrink-0;
+  color: var(--tone);
+}

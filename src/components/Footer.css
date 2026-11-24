@@ -1,0 +1,48 @@
+@reference "../index.css";
+
+.footer { @apply relative mt-16 overflow-hidden border-t border-line; }
+.footer::before {
+  content: "";
+  @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+  background: var(--gradient-brand);
+  opacity: 0.6;
+}
+
+.footer__inner {
+  @apply grid gap-10 pt-16 pb-6 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr];
+}
+
+.footer__name { @apply font-display text-3xl font-bold text-fg; letter-spacing: -0.04em; }
+.footer__dot { @apply text-lime; }
+.footer__role { @apply mt-2 text-muted; }
+
+.footer__heading {
+  @apply mb-3 font-sans text-xs font-semibold tracking-[0.14em] text-subtle uppercase;
+  letter-spacing: 0.14em;
+}
+.footer__list { @apply flex flex-col; }
+.footer__link {
+  @apply inline-flex items-center gap-2 py-2 text-muted;
+  min-height: 40px;
+  transition: color var(--dur-fast) ease;
+}
+.footer__link:hover { @apply text-lime; }
+
+/* Giant name with a soft fill fading out toward the bottom */
+.footer__wordmark {
+  @apply font-display font-extrabold select-none;
+  font-size: clamp(4.5rem, 19vw, 16rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  margin-top: 1.5rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--color-fg) 9%, transparent) 10%, transparent 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.footer__bottom {
+  @apply relative flex flex-col gap-1 border-t border-line py-6 text-sm text-subtle sm:flex-row sm:justify-between;
+}

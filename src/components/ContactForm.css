@@ -1,0 +1,56 @@
+@reference "../index.css";
+
+.contact-form {
+  @apply flex flex-col gap-5 rounded-[var(--radius)] border border-line bg-surface p-5 sm:p-7;
+}
+
+.contact-form__row { @apply grid gap-5 sm:grid-cols-2; }
+.contact-form__field { @apply flex flex-col gap-2; }
+
+.contact-form__label { @apply text-sm font-medium text-fg; }
+
+.contact-form__input {
+  @apply w-full rounded-[var(--radius-sm)] border border-line-strong bg-bg px-4 text-base text-fg;
+  min-height: 48px;
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.contact-form__input::placeholder { @apply text-subtle; }
+.contact-form__input:hover { @apply border-subtle; }
+.contact-form__input:focus-visible {
+  @apply border-accent;
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-lime) 30%, transparent);
+}
+.contact-form__input[aria-invalid="true"] { @apply border-danger; }
+
+.contact-form__textarea { @apply py-3; resize: vertical; min-height: 140px; }
+
+.contact-form__select-wrap { @apply relative; }
+.contact-form__select-wrap::after {
+  content: "";
+  @apply pointer-events-none absolute top-1/2 right-4 size-2 border-r-2 border-b-2 border-muted;
+  transform: translateY(-70%) rotate(45deg);
+}
+.contact-form__select { @apply appearance-none pr-10; }
+.contact-form__select option { @apply bg-surface text-fg; }
+
+.contact-form__error { @apply text-sm text-danger; }
+.contact-form__error--form { @apply rounded-[var(--radius-sm)] border border-danger/40 bg-danger/10 p-3; }
+
+.contact-form__submit { @apply w-full sm:w-auto sm:self-start; }
+
+/* Success state */
+.contact-form--success {
+  @apply items-start gap-4 outline-none;
+  animation: success-in 500ms var(--ease-out-soft) both;
+}
+.contact-form__success-icon {
+  @apply inline-flex size-12 items-center justify-center rounded-full bg-accent/15 text-accent;
+}
+.contact-form__success-title { @apply text-2xl font-semibold; }
+.contact-form__success-text { @apply text-muted; }
+
+@keyframes success-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}

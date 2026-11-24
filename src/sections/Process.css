@@ -1,0 +1,34 @@
+@reference "../index.css";
+
+.process__list { @apply relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4; }
+
+/* Connecting line across the steps on large screens */
+@media (min-width: 1024px) {
+  .process__list::before {
+    content: "";
+    @apply absolute top-[2.75rem] right-[12%] left-[12%] h-px;
+    background: linear-gradient(90deg, var(--color-lime), var(--color-sky), var(--color-amber), var(--color-coral));
+    opacity: 0.5;
+  }
+}
+
+.process__step {
+  @apply relative flex flex-col rounded-[var(--radius)] border border-line bg-surface p-6 sm:p-7;
+  transition:
+    opacity var(--dur-slow) var(--ease-out-soft),
+    transform 600ms var(--ease-out-soft),
+    border-color var(--dur) ease;
+}
+.process__step:hover {
+  border-color: color-mix(in oklab, var(--tone) 50%, var(--color-line));
+  transform: translateY(-4px);
+}
+
+.process__num {
+  @apply relative inline-flex size-12 items-center justify-center rounded-full font-display text-base font-bold;
+  background: var(--tone);
+  color: var(--color-on-bright);
+  box-shadow: 0 0 0 6px var(--color-surface), 0 10px 30px -6px color-mix(in oklab, var(--tone) 70%, transparent);
+}
+.process__title { @apply mt-7 text-2xl; }
+.process__text { @apply mt-3 text-muted; }
