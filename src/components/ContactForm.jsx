@@ -7,6 +7,17 @@ import './ContactForm.css'
 const empty = { name: '', email: '', projectType: '', message: '' }
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
+// WhatsApp chat link with the form's details already typed in
+function whatsappFormLink({ name, email, projectType, message }) {
+  const text = [
+    `Hi Izuchukwu, I'm ${name.trim()} (${email.trim()}).`,
+    `Project type: ${projectType}`,
+    '',
+    message.trim(),
+  ].join('\n')
+  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(text)}`
+}
+
 function validate(values) {
   const errors = {}
   if (values.name.trim().length < 2) errors.name = 'Please enter your name.'
@@ -20,7 +31,8 @@ export default function ContactForm() {
   const [values, setValues] = useState(empty)
   const [errors, setErrors] = useState({})
   const [touched, setTouched] = useState({})
-  const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [status, setStatus] = useState('idle') // idle | sending | success | error | whatsapp
+  const [waUrl, setWaUrl] = useState('')
   const formRef = useRef(null)
   const successRef = useRef(null)
 
@@ -46,20 +58,30 @@ export default function ContactForm() {
       return
     }
 
+    // No webhook yet: hand the message to WhatsApp, pre-filled, for the visitor to send.
+    // (Set `contactWebhookUrl` in src/data/site.js to send straight to n8n instead.)
+    if (!site.contactWebhookUrl) {
+      const url = whatsappFormLink(values)
+      setWaUrl(url)
+      // Open synchronously inside the submit handler so popup blockers allow it
+      const win = window.open(url, '_blank')
+      if (win) win.opener = null
+      else window.location.href = url
+      setStatus('whatsapp')
+      setValues(empty)
+      setTouched({})
+      requestAnimationFrame(() => successRef.current?.focus())
+      return
+    }
+
     setStatus('sending')
     try {
-      // TODO (n8n): set `contactWebhookUrl` in src/data/site.js to your n8n webhook URL.
-      // Until then, the form does not send anything; it only shows the success state.
-      if (site.contactWebhookUrl) {
-        const res = await fetch(site.contactWebhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...values, submittedAt: new Date().toISOString() }),
-        })
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`)
-      } else {
-        await new Promise((r) => setTimeout(r, 700))
-      }
+      const res = await fetch(site.contactWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, submittedAt: new Date().toISOString() }),
+      })
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
       setStatus('success')
       setValues(empty)
       setTouched({})
@@ -67,6 +89,29 @@ export default function ContactForm() {
     } catch {
       setStatus('error')
     }
+  }
+
+  if (status === 'whatsapp') {
+    return (
+      <div className="contact-form contact-form--success" ref={successRef} tabIndex={-1} role="status">
+        <span className="contact-form__success-icon">
+          <Icon name="whatsapp" size={24} />
+        </span>
+        <h3 className="contact-form__success-title">Almost there: tap send in WhatsApp.</h3>
+        <p className="contact-form__success-text">
+          Your message is ready in WhatsApp. Just press send and I will get back to you. If WhatsApp did not open, use
+          the button below.
+        </p>
+        <div className="contact-form__success-actions">
+          <Button href={waUrl} external icon="whatsapp" iconPosition="start">
+            Open WhatsApp
+          </Button>
+          <Button variant="ghost" onClick={() => setStatus('idle')}>
+            Write another message
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   if (status === 'success') {
@@ -167,9 +212,18 @@ export default function ContactForm() {
         </p>
       )}
 
-      <Button type="submit" icon="arrowRight" disabled={status === 'sending'} className="contact-form__submit">
-        {status === 'sending' ? 'Sending...' : 'Send message'}
-      </Button>
+      {site.contactWebhookUrl ? (
+        <Button type="submit" icon="arrowRight" disabled={status === 'sending'} className="contact-form__submit">
+          {status === 'sending' ? 'Sending...' : 'Send message'}
+        </Button>
+      ) : (
+        <>
+          <Button type="submit" icon="whatsapp" iconPosition="start" className="contact-form__submit">
+            Send on WhatsApp
+          </Button>
+          <p className="contact-form__note">Opens WhatsApp with your message ready to send.</p>
+        </>
+      )}
     </form>
   )
 }
